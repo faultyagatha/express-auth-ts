@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 
-import { get, controller } from './decorators';
+import { get, controller, bodyValidator, post } from './decorators';
+
 
 @controller('/auth')
 class LoginController {
@@ -18,5 +19,24 @@ class LoginController {
       </div>
       <button>Submit</button>
     </form>`);
+  }
+
+  @post('/login')
+  @bodyValidator('email', 'password')
+  postLogin(req: Request, res: Response) {
+    const { email, password } = req.body;
+    if (email && password
+      && email === 'test@test.com'
+      && password === 'password') {
+      //mark the person as logged in
+      req.session = { loggedIn: true };
+      //redirect to the root route
+      res.redirect('/');
+    } else {
+      res.status(422).json({
+        status: 'error',
+        message: 'not found'
+      });
+    }
   }
 }

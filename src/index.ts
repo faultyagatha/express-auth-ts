@@ -11,7 +11,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieSession({ keys: ['ghoshghg'] }));
 app.use(router);
-//app.use(AppRouter.getInstance());
+app.use(AppRouter.getInstance());
 
 app.listen(3000, () => {
   console.log('listening on port 3000');
